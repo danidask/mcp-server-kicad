@@ -1,5 +1,12 @@
 # CST substrate architecture: spike-verified decision records
 
+Scope clarification, 2026-10-12: these byte-preservation decisions govern
+offline file workflows. Future live IPC must preserve unrelated semantic
+state and engineering work; KiCad serialization need not be byte-identical.
+An open document cannot be edited through a disk-write fallback. See
+[the co-design direction](co-design.md) and [migration plan](kicad11-migration.md).
+The decisions and historical evidence below remain applicable to the CST.
+
 Status: drafted 2026-08-09 from workflow `issue9-arch-spikes` (3 Opus-max spikes, each independently re-executed by an adversarial verifier; verdicts A: PARTIAL-confirmed, B: CONFIRMED, C: PARTIAL-confirmed; corrections folded in below). Spike artifacts: scratchpad `spike_a/ spike_b/ spike_c/ verify_a/ verify_b/ verify_c/`; CI evidence: branch `ci/issue9-kicad10-probe` commits `eb2c7a1`/`57230ab`, run 31303313193.
 
 ## The invariant (fixed, non-negotiable)

@@ -12,16 +12,27 @@ KiCad file manipulation MUST go through the kicad MCP tools. NEVER
 run kicad-cli commands via Bash. If an MCP tool returns an error, try
 different parameters — do NOT fall back to manual file editing.
 
-EVERY KiCad operation has a corresponding MCP tool. Do NOT claim a
-tool does not exist without first listing all available tools. Key
+Inspect the available MCP tools before claiming an operation is supported.
+If no supported operation exists, report that limitation without a file-write
+fallback. Key
 tools that MUST be used instead of file writes:
 - `add_symbol` — create custom symbol definitions in .kicad_sym files
 - `create_symbol_library` — create new .kicad_sym library files
 - `create_schematic` — create new .kicad_sch files
 - `create_project` — create new .kicad_pro project files
-If you find yourself thinking "there's no MCP tool for this," you are
-wrong. Check the tool list again.
+Check the tool list; do not invent a tool or API method.
 </CRITICAL-RULE>
+
+## Incremental collaboration in this fork
+
+Current tools operate on disk files, not open editors' unsaved state. Use closed
+documents or isolated offline copies; do not use disk writes as a live IPC
+fallback. A review request is read-only unless edits are authorized. Preserve
+the current design and constrain work to the authorized scope. The full-design
+pipeline below is a checklist for that workflow, not authorization to rebuild
+an existing design or make review changes. Reviewer approval is separate from
+the engineer's approval. See [the co-design direction](../../docs/co-design.md)
+and [versioned capability matrix](../../docs/kicad11-migration.md).
 
 <SUBAGENT-STOP>
 If you were dispatched as a subagent to execute a specific task, skip this skill.

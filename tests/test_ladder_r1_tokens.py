@@ -174,7 +174,7 @@ def test_round_trip_kicad_dialect(doc):
 
 
 def test_parse_takes_bytes_only():
-    """CLAUDE.md: CST I/O is bytes-only. A bytearray is read like the same bytes and
+    """AGENTS.md: CST I/O is bytes-only. A bytearray is read like the same bytes and
     gives bytes back; the tree keeps its own copy, so changing the caller's buffer
     afterwards changes nothing; text is refused rather than encoded behind the
     caller's back, and the refusal says bytes are wanted, so a caller can tell it from

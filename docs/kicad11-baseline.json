@@ -1,0 +1,37 @@
+{
+  "status": "investigation-pins-not-certified-compatibility",
+  "recorded_on": "2026-10-12",
+  "server": {
+    "source_commit": "486364b2eb50a21102deee91c60493de4eb70437",
+    "development_python": "3.13",
+    "observed_python": "3.13.15",
+    "dependency_lock": "../uv.lock"
+  },
+  "kicad": {
+    "platform": "windows-x86_64",
+    "version": "10.99.0-5265-g0616634034",
+    "source_repository": "https://gitlab.com/kicad/code/kicad",
+    "source_commit": "0616634034fa1a8c92c141c293342cbef2f68dff",
+    "build_time_reported": "2026-10-12 07:34:13",
+    "cli_sha256": "aae90c59af9737060aa2f7b5d005486f3b444d6b99420d7ca07ef8bccb904f95",
+    "installer_url": null,
+    "installer_sha256": null,
+    "gui_integration_tested": false
+  },
+  "bindings_candidate": {
+    "repository": "https://gitlab.com/kicad/code/kicad-python",
+    "commit": "87b945a0d56b26a78bf547db9771ff9bf3a057ea",
+    "declared_version": "0.9.0.dev0",
+    "kicad_protocol_submodule_commit": "dcadf9baa30d43d7d1b3d0342345f05ec0da26e1",
+    "source_inspected": true,
+    "installed": false,
+    "integration_tested": false
+  },
+  "released_bindings_comparator": {
+    "version": "0.8.0",
+    "wheel_sha256": "3d43af4aa2515e88829a9d30e408b8ce89537431a802104ee2a50392f0deaa16",
+    "generated_api_version": "10.0.6-0-gcaf7377e9c",
+    "isolated_python_313_install_tested": true,
+    "gui_integration_tested": false
+  }
+}

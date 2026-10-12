@@ -30,6 +30,20 @@ change on disk.
 
 ---
 
+## This fork's direction
+
+This checkout is being extended for incremental human–AI co-design with KiCad
+11 development builds, initially on Windows, using Python 3.13. The engineer
+and agent alternate work on the same project; the server remains independent
+of the agent or model provider.
+
+The existing 109 tools operate on files. Use them for closed documents or
+isolated offline copies. They do not observe an open editor's unsaved changes
+and must not write its files as a substitute for live IPC. KiCad 11 live
+collaboration, persisted approvals, and shared protection policies are planned,
+not implemented. See the [co-design direction](docs/co-design.md) and
+[migration plan, compatibility matrix, and evidence](docs/kicad11-migration.md).
+
 ## What it looks like
 
 ```text
@@ -55,6 +69,25 @@ themselves, and `autoroute_pcb`'s routed copy, a new board that `pcbnew` saves
 while yours stays untouched.
 
 ## Quick start
+
+### Develop this fork with any MCP client
+
+From this checkout, install the locked development environment and launch the
+unified stdio server:
+
+```bash
+uv sync --frozen --all-extras --dev
+uv run --frozen mcp-server-kicad
+```
+
+Configure your MCP client to run that command from the checkout and provide
+explicit `KICAD_SCH_PATH`, `KICAD_PCB_PATH`, and other paths as needed. This
+works with any compatible stdio MCP client. Read [AGENTS.md](AGENTS.md) and
+[CONTRIBUTING.md](CONTRIBUTING.md) before changing the server.
+
+The integrations below are optional upstream release integrations. Commands
+using `uvx --from mcp-server-kicad`, pip, or a published plugin/bundle install
+the published package; they do not run changes in this fork.
 
 ### Claude Code
 
@@ -205,8 +238,9 @@ Highest priority wins:
 
 ## Requirements
 
-- **Python 3.10+**
-- **KiCad 9.x or 10.x**, for the tools that hand work to KiCad. ERC, DRC, every
+- **Python 3.13+** for this fork; Python 3.13 is the development baseline.
+- **KiCad 9.x or 10.x** are the existing offline integration targets, for the
+  tools that hand work to KiCad. ERC, DRC, every
   export, jobsets, `get_version`, the library upgrades and
   `update_pcb_from_schematic` run `kicad-cli`; `fill_zones` and `autoroute_pcb`
   need KiCad's `pcbnew` Python bindings, and `autoroute_pcb` needs Java too.
@@ -215,7 +249,10 @@ Highest priority wins:
   directly and needs no KiCad install.
 
 CI runs the full suite on Linux against KiCad 9 and KiCad 10, and on macOS and
-Windows against KiCad 10, plus a KiCad-free matrix across Python 3.10 through 3.14.
+Windows against KiCad 10, plus a KiCad-free Python 3.13/3.14 matrix. The server
+runs on its own Python environment; legacy pcbnew subprocesses need a separate
+compatible KiCad interpreter. An installed KiCad 11 development build does not
+by itself establish compatibility; see the [versioned matrix](docs/kicad11-migration.md).
 
 ### Finding your KiCad install
 
@@ -223,9 +260,10 @@ Windows against KiCad 10, plus a KiCad-free matrix across Python 3.10 through 3.
 on macOS, then in the standard Windows install folders, machine-wide under
 `Program Files` and per-user under `AppData`, newest version first. Neither
 installer adds it to `PATH`. Everything else in the KiCad tree is located
-relative to it, the same way KiCad itself does it, so a stock install on any
-platform needs no configuration: the stock symbol libraries and the bundled
-Python that provides `pcbnew` are both found automatically.
+relative to it, the same way KiCad itself does it. Supported stock installs are
+probed for libraries and legacy `pcbnew` Python; a development install may not
+provide usable SWIG bindings. Set `KICAD_CLI_PATH` explicitly when verifying a
+particular build. Executable discovery does not identify a live editor instance.
 
 Override any of it if your install is unusual:
 

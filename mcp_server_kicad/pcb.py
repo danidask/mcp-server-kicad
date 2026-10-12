@@ -3715,7 +3715,7 @@ def _mm(nm: int) -> str:
 def _filled_polygon_bytes(layer: str, outline: list) -> bytes:
     """One (filled_polygon ...) node in KiCad's own shape.
 
-    Harvested rather than invented, per the rule in CLAUDE.md. Measured on the
+    Harvested rather than invented, per the rule in AGENTS.md. Measured on the
     shipped demos: one node per outline per layer (a zone on interf_u carries
     23, all on B.Cu), a single (pts ...) child, and (xy ...) tokens packed to a
     column limit rather than one per line.

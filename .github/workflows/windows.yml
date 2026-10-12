@@ -81,6 +81,8 @@ jobs:
           & $cli.FullName version
 
       - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: "3.13"
       - run: uv sync --frozen --all-extras --dev
 
       # Non-fatal. This is the only place we see a real Windows install, so
