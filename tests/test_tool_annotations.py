@@ -152,6 +152,7 @@ _EXPECTED: dict[str, dict[str, list[str]]] = {
             "list_cross_sheet_nets",
             "get_symbol_instances",
             "get_version",
+            "get_live_snapshot",
         ],
         "additive": [
             "create_project",

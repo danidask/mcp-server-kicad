@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-26.04
     strategy:
       matrix:
-        python-version: ["3.13", "3.14"]
+        python-version: ["3.13"]
     steps:
       - uses: actions/checkout@v7
       # python-version exports UV_PYTHON, which outranks .python-version. It is

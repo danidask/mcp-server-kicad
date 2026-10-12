@@ -1,5 +1,5 @@
 {
-  "status": "investigation-pins-not-certified-compatibility",
+  "status": "native-headless-reads-verified-gui-compatibility-unverified",
   "recorded_on": "2026-10-12",
   "server": {
     "source_commit": "486364b2eb50a21102deee91c60493de4eb70437",
@@ -24,8 +24,14 @@
     "declared_version": "0.9.0.dev0",
     "kicad_protocol_submodule_commit": "dcadf9baa30d43d7d1b3d0342345f05ec0da26e1",
     "source_inspected": true,
-    "installed": false,
-    "integration_tested": false
+    "installed": true,
+    "integration_tested": true,
+    "integration_scope": "isolated native headless reads only; GUI not run",
+    "generated_api_version": "unknown (archive has no git describe metadata)",
+    "locally_repaired_wheel_sha256": "94bf53f89b4797c57bee489f482f18f2fc164bc4509eda5d9eed45b3467d076b",
+    "repair": "qualify generated protocol imports as kipy.proto.* and regenerate RECORD",
+    "runtime_dependency_added": false,
+    "evidence": "ipc-observation.md"
   },
   "released_bindings_comparator": {
     "version": "0.8.0",

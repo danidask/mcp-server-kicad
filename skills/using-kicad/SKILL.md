@@ -224,7 +224,14 @@ ahead." Asking a question or requesting changes is NOT approval.
 
 The KiCad MCP server gives you tools to drive KiCad programmatically.
 You do not need the user to click anything in KiCad — the tools do it
-for you. Tool groups (109 tools total):
+for you. Tool groups (110 tools total):
+
+For experimental read-only live observation, use `get_live_snapshot` with the
+explicit IPC endpoint and instance token configured in the server environment.
+Enumerate first, then select the returned document ID and project directory.
+It requires pinned development bindings; see `docs/ipc-observation.md`. It never
+falls back to disk. Legacy file tools remain offline; a live observation does
+not authorize a disk write to an open editor document.
 
 - **Project:** `create_project`, `create_schematic`,
   `create_symbol_library`, `create_sym_lib_table`,

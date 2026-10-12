@@ -8,7 +8,7 @@
 
 **Let an AI assistant edit real KiCad projects without corrupting them.**
 
-109 MCP tools covering schematic capture, PCB layout, symbol and footprint
+110 MCP tools covering schematic capture, PCB layout, symbol and footprint
 libraries, ERC and DRC, and manufacturing exports. No screenshots, no
 copy-paste, no hand-edited s-expressions: the model calls tools, KiCad files
 change on disk.
@@ -37,11 +37,14 @@ This checkout is being extended for incremental human–AI co-design with KiCad
 and agent alternate work on the same project; the server remains independent
 of the agent or model provider.
 
-The existing 109 tools operate on files. Use them for closed documents or
+The existing 109 file tools operate on files. Use them for closed documents or
 isolated offline copies. They do not observe an open editor's unsaved changes
 and must not write its files as a substitute for live IPC. KiCad 11 live
-collaboration, persisted approvals, and shared protection policies are planned,
-not implemented. See the [co-design direction](docs/co-design.md) and
+editing, persisted approvals, and shared protection policies are planned.
+`get_live_snapshot` adds experimental read-only native IPC observation; headless
+schematic/PCB reads are verified on the pinned development build, while unsaved
+GUI edits remain unverified. See [setup and evidence](docs/ipc-observation.md),
+the [co-design direction](docs/co-design.md) and
 [migration plan, compatibility matrix, and evidence](docs/kicad11-migration.md).
 
 ## What it looks like
@@ -133,7 +136,7 @@ project directory so paths resolve themselves:
 }
 ```
 
-That single entry registers all 109 tools. Prefer to split them across five
+That single entry registers all 110 tools. Prefer to split them across five
 smaller servers? See [Configuration](#configuration).
 
 ## What you get
@@ -147,7 +150,7 @@ surface in context.
 |--------|:-----:|--------------|
 | `mcp-server-kicad-schematic` | 42 | Schematic read/write, net tracing, ERC, exports (PDF, SVG, DXF, netlist, BOM) |
 | `mcp-server-kicad-pcb` | 34 | Board read/write, netlist import, zones, DRC, autorouting, exports (Gerber, drill, 3D, pick-and-place) |
-| `mcp-server-kicad-project` | 24 | Project scaffolding, hierarchical sheets, hierarchy validation, annotation, cross-sheet net tracing |
+| `mcp-server-kicad-project` | 25 | Project scaffolding, hierarchical sheets, hierarchy validation, annotation, cross-sheet net tracing, experimental IPC observation |
 | `mcp-server-kicad-symbol` | 5 | Symbol library browsing, authoring, SVG export, format upgrade |
 | `mcp-server-kicad-footprint` | 4 | Footprint library browsing, SVG export, format upgrade |
 
@@ -249,7 +252,7 @@ Highest priority wins:
   directly and needs no KiCad install.
 
 CI runs the full suite on Linux against KiCad 9 and KiCad 10, and on macOS and
-Windows against KiCad 10, plus a KiCad-free Python 3.13/3.14 matrix. The server
+Windows against KiCad 10, plus a KiCad-free Python 3.13 CI job. The server
 runs on its own Python environment; legacy pcbnew subprocesses need a separate
 compatible KiCad interpreter. An installed KiCad 11 development build does not
 by itself establish compatibility; see the [versioned matrix](docs/kicad11-migration.md).
@@ -464,7 +467,13 @@ Ransomware protection, Allow an app through Controlled folder access.
 </details>
 
 <details>
-<summary><b>Project</b> (24 tools)</summary>
+<summary><b>Project</b> (25 tools)</summary>
+
+**Live observation (experimental)**
+
+| Tool | Description |
+|------|-------------|
+| `get_live_snapshot` | Enumerate an explicit IPC instance or observe a selected native schematic/PCB; requires pinned development bindings, never falls back to files |
 
 **Scaffolding**
 

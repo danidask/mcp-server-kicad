@@ -7,7 +7,9 @@ control, and reasoning stays in the external agent; the server executes,
 validates, and enforces design policies without requiring an LLM provider.
 
 This is a product direction, not a description of capabilities already shipped.
-The current tools operate on files. See [the migration plan and capability
+The 109 existing file tools operate offline; `get_live_snapshot` adds
+experimental read-only IPC observation ([setup and evidence](ipc-observation.md)).
+Unsaved GUI edits remain unverified. See [the migration plan and capability
 matrix](kicad11-migration.md) for evidence, gaps, and the next bounded milestone.
 Keep the existing unified interface and file-preserving implementation; do not
 replace this project wholesale or require users to operate a second routing MCP

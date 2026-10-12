@@ -121,11 +121,11 @@ jobs:
           for mod in (schematic, pcb, symbol, footprint, project):
               _copy_tools(mod.mcp, target)
           count = len(target._tool_manager._tools)
-          assert count == 109, f"expected 109 tools, got {count}"
+          assert count == 110, f"expected 110 tools, got {count}"
 
           print("ok:", resolved)
           print("ok:", lib)
-          print("ok: 109 tools")
+          print("ok: 110 tools")
           PY
 
       - name: Discovery test suite

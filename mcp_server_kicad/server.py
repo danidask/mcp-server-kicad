@@ -28,6 +28,7 @@ mcp = build_server(
         # test_instructions_name_only_real_tools, so a rename cannot leave a
         # phantom here.
         "START HERE (fetch one of these by name; do not search blind):\n"
+        "- Observe a live editor (experimental, read-only): get_live_snapshot\n"
         "- See what is in a schematic: list_schematic_components\n"
         "- Add a part (resistor, capacitor, IC, ...): place_component\n"
         "- Connect pins to a net: wire_pins_to_net\n"
@@ -39,7 +40,7 @@ mcp = build_server(
         "- Push the schematic to the board: update_pcb_from_schematic\n"
         "- Manufacturing output: export_gerbers\n"
         "- Start a new project: create_project\n"
-        "- Anything else: search by what you want to do. There are 109 tools;"
+        "- Anything else: search by what you want to do. There are 110 tools;"
         " these are the entry points, not the whole surface."
     ),
 )

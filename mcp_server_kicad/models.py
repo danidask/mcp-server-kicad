@@ -16,6 +16,30 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 from typing_extensions import NotRequired, TypedDict
 
+
+class LiveDocument(BaseModel):
+    """Opaque document identity plus the native project/type/sheet specifier."""
+
+    id: str
+    identity: dict
+
+
+class LiveSnapshotResult(BaseModel):
+    """Experimental IPC evidence, without secrets or offline substitutes."""
+
+    backend: str = "ipc"
+    python_version: str
+    bindings_version: str
+    protocol_version: str
+    kicad_version: dict
+    documents: list[LiveDocument]
+    selected_document: LiveDocument | None = None
+    snapshot: dict | None = None
+    fingerprint: str | None = None
+    observed_sections: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+
+
 # ---------------------------------------------------------------------------
 # Tool parameter shapes
 # ---------------------------------------------------------------------------

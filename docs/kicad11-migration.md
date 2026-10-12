@@ -1,7 +1,11 @@
 # KiCad 11 foundation audit and migration plan
 
-Status: foundation only, 2026-10-12. No live backend, design policy service, or
-design mutation is introduced by this iteration. Product requirements are in
+Status: foundation audit plus experimental read-only IPC follow-up, 2026-10-12.
+The original audit below remains historical evidence; the follow-up is recorded
+in [ipc-observation.md](ipc-observation.md). It adds a read-only backend and
+`get_live_snapshot` (110 total tools; project registry 25), with native headless
+reads verified and GUI unsaved-state acceptance still not run. No live design
+mutation or design policy service is added. Product requirements are in
 [co-design.md](co-design.md); durable development rules are in
 [AGENTS.md](../AGENTS.md) and [development.md](development.md).
 
@@ -181,9 +185,11 @@ those integrations remain optional and are not made server requirements.
 
 ## Migration sequence and decisions for review
 
-1. **Next: read-only live observation (M1).** Add a small compatibility/backend
-   layer and one diagnostic/snapshot surface to the existing unified server.
-   Do not expose IPC writes yet. Verify the bindings package/build pair first.
+1. **Read-only live observation (M1, partial).** `_ipc.py` and
+   `get_live_snapshot` now provide explicit enumeration and native observation
+   within the five existing registries. Headless schematic/PCB reads and token
+   rejection passed on the pinned build; the GUI criteria below remain open.
+   See [setup, provenance and current evidence](ipc-observation.md).
 2. **State/policy foundation (M2).** Propose project-side storage, semantic
    fingerprints, persistent operation IDs, approval staleness, protected
    object/net/property scopes, and all-write enforcement. Inventory every
@@ -213,8 +219,8 @@ Proposals needing the engineer's approval before implementation:
   CI artifacts. Retain existing 9/10 offline gates rather than replacing their
   evidence with an unverified nightly gate.
 
-Python runtime support is deliberately narrowed to 3.13+ in this fork; 3.14 is
-retained as an additional CI compatibility leg. This is a packaging change,
+Python development and CI use 3.13 exclusively. Packaging retains the >=3.13
+floor, with only 3.13 advertised and tested. This is a packaging change,
 not a change to KiCad's bundled interpreter. Tool schemas/contracts are otherwise
 preserved in this foundation iteration.
 
@@ -327,7 +333,7 @@ for all 109 tools from this foundation evidence.
 | `.coderabbit.yaml` | Explicitly select both concise instructions and preserved detailed review criteria |
 | `skills/using-kicad/SKILL.md` | Preserve optional plugin workflow; remove false universal-capability claim and clarify read-only reviews/scoped incremental authorization |
 | `.python-version`, `pyproject.toml`, `uv.lock` | Python 3.13 development/floor/lint/type baseline; preserve locked dependency versions without unrelated upgrades |
-| Six `.github/workflows/*.yml` | Server Python 3.13 selected across lint/native/nightly/release/platform workflows; retain 3.14 compatibility leg and existing KiCad 9/10 gates |
+| Six `.github/workflows/*.yml` | Server Python 3.13 selected across lint/native/nightly/release/platform workflows; retain existing KiCad 9/10 gates |
 | `mcpb/pyproject.toml`, `mcpb/manifest.json` | Bundle runtime requirement agrees with server floor; placeholder release versions unchanged |
 | `mcp_server_kicad/models.py`, `mcp_server_kicad/pcb.py`, `tests/test_ladder_r1_tokens.py` | Only docstrings/comments: remove stale supported-Python claim and update instruction filename; executable behavior unchanged |
 

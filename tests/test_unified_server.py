@@ -44,7 +44,7 @@ class TestUnifiedServer:
         assert "run_drc" in registered
         assert "export_gerbers" in registered
         # Total tool count
-        assert len(registered) == 109, f"Expected 109 tools, got {len(registered)}: {registered}"
+        assert len(registered) == 110, f"Expected 110 tools, got {len(registered)}: {registered}"
 
     def test_runtime_imports_no_kiutils(self):
         """kiutils is a test-only dependency since slice 18, so an import of

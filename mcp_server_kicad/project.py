@@ -10,6 +10,7 @@ import json
 import os
 from collections import Counter
 from pathlib import Path
+from typing import Literal
 
 from mcp.server.mcpserver.exceptions import ToolError
 
@@ -44,6 +45,7 @@ from mcp_server_kicad.models import (
     HierarchyResult,
     HierarchyValidationResult,
     LibTableEntry,
+    LiveSnapshotResult,
     NetTraceResult,
     RootSchematicResult,
     SheetInfoResult,
@@ -91,6 +93,32 @@ mcp = build_server(
         "7. Run run_erc from root for final validation"
     ),
 )
+
+
+@mcp.tool(annotations=_READ_ONLY, title="Observe a live KiCad document through IPC")
+def get_live_snapshot(
+    endpoint: str = "",
+    document_type: Literal["pcb", "schematic"] = "pcb",
+    document_id: str = "",
+    expected_project: str = "",
+    timeout_ms: int = 2000,
+) -> LiveSnapshotResult:
+    """Enumerate or freshly observe an explicitly selected live document.
+
+    Experimental: needs the pinned development bindings (docs/ipc-observation.md).
+    First omit document_id/expected_project to enumerate this endpoint's documents.
+    Then pass the returned id and absolute project directory to read native items,
+    hierarchy/connectivity (schematic), or nets/rules (PCB). KICAD_API_TOKEN must
+    come from the intended instance's plugin environment; never pass it in chat.
+    endpoint can instead come from KICAD_API_SOCKET. Uses IPC exclusively, including
+    unsaved editor state where the native API supports it. Does not save or edit.
+    Unsupported/busy/disconnected targets fail with no file fallback. Returned
+    protobuf JSON uses native units (nm/degrees) and stable native item/sheet IDs.
+    Fingerprints cover only observed fields and cannot authorize live writes.
+    """
+    from mcp_server_kicad._ipc import observe
+
+    return observe(endpoint, document_type, document_id, expected_project, timeout_ms)
 
 
 def _find_sheet_cst(root, sheet_uuid: str):

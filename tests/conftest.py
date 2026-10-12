@@ -1208,7 +1208,7 @@ def _lib_table_problem(data: bytes, name: str) -> str | None:
 
 #: Tools the unified server registers.  Asserted by every test that talks to a
 #: server over the wire, because a subset silently shipping is issue #2.
-EXPECTED_TOOL_COUNT = 109
+EXPECTED_TOOL_COUNT = 110
 
 
 class StdioClient:
